@@ -1,7 +1,10 @@
 package com.rpicloud;
 
+import com.rpicloud.models.Product;
+import com.rpicloud.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -21,11 +24,32 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-public class ProductServiceApplication {
+public class ProductServiceApplication implements CommandLineRunner {
+
+    @Autowired
+    private ProductRepository repository;
 
 	public static void main(String[] args) {
         SpringApplication.run(ProductServiceApplication.class, args);
 	}
+
+    @Override
+    public void run(String... args) throws Exception {
+        repository.deleteAll();
+        repository.save(new Product("Microservices by Sam Newton", "Book", 23.45, 56.34));
+        repository.save(new Product("Cloud Native by Josh Long", "Book", 23.78, 28.89));
+
+        System.out.println("Products found with findAll():");
+        System.out.println("-------------------------------");
+        repository.findAll().forEach(System.out::println);
+        System.out.println();
+
+        // fetch an individual customer
+        System.out.println("Product found with findByProductName('Microservices by Sam Newton'):");
+        System.out.println("--------------------------------");
+        System.out.println(repository.findByProductName("Microservices by Sam Newton"));
+    }
+
 
     @Autowired
     public void setEnvironment(Environment e){

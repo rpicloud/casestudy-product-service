@@ -1,10 +1,14 @@
 package com.rpicloud.controllers;
 
+import com.rpicloud.models.Product;
+import com.rpicloud.repositories.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,12 +18,11 @@ import java.util.List;
 @RestController
 public class ProductRestController {
 
+    @Autowired
+    private ProductRepository repository;
+
     @RequestMapping(value = "/products", method = RequestMethod.GET)
-    public List<String> getAllProducts(){
-        List<String> test = new ArrayList<String>();
-        test.add("Hello");
-        test.add("World");
-        test.add("!");
-        return test;
+    public Collection<Product> getAllProducts(){
+        return repository.findAll();
     }
 }
