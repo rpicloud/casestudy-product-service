@@ -1,6 +1,6 @@
 package com.rpicloud;
 
-import com.rpicloud.models.Product;
+import com.fasterxml.classmate.TypeResolver;
 import com.rpicloud.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,14 +22,10 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import com.fasterxml.classmate.TypeResolver;
 
 import java.time.LocalDate;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static springfox.documentation.schema.AlternateTypeRules.newRule;
-
-
 
 @SpringBootApplication
 @EnableSwagger2
@@ -37,6 +33,8 @@ public class ProductServiceApplication implements CommandLineRunner {
 
     @Autowired
     private ProductRepository repository;
+    @Autowired
+    private TypeResolver typeResolver;
 
 	public static void main(String[] args) {
         SpringApplication.run(ProductServiceApplication.class, args);
@@ -44,21 +42,20 @@ public class ProductServiceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        repository.deleteAll();
-        repository.save(new Product("Microservices by Sam Newton", "Book", 23.45, 56.34));
-        repository.save(new Product("Cloud Native by Josh Long", "Book", 23.78, 28.89));
-
-        System.out.println("Products found with findAll():");
-        System.out.println("-------------------------------");
-        repository.findAll().forEach(System.out::println);
-        System.out.println();
-
-        // fetch an individual customer
-        System.out.println("Product found with findByProductName('Microservices by Sam Newton'):");
-        System.out.println("--------------------------------");
-        System.out.println(repository.findByProductName("Microservices by Sam Newton"));
+//        repository.deleteAll();
+//        repository.save(new Product("Microservices by Sam Newton", "Book", 23.45, 56.34));
+//        repository.save(new Product("Cloud Native by Josh Long", "Book", 23.78, 28.89));
+//
+//        System.out.println("Products found with findAll():");
+//        System.out.println("-------------------------------");
+//        repository.findAll().forEach(System.out::println);
+//        System.out.println();
+//
+//        // fetch an individual customer
+//        System.out.println("Product found with findByProductName('Microservices by Sam Newton'):");
+//        System.out.println("--------------------------------");
+//        System.out.println(repository.findByProductName("Microservices by Sam Newton"));
     }
-
 
     @Autowired
     public void setEnvironment(Environment e){
@@ -76,9 +73,6 @@ public class ProductServiceApplication implements CommandLineRunner {
                 .directModelSubstitute(LocalDate.class, String.class).genericModelSubstitutes(ResponseEntity.class)
                 .alternateTypeRules(newRule(typeResolver.resolve(DeferredResult.class, typeResolver.resolve(ResponseEntity.class, WildcardType.class)), typeResolver.resolve(WildcardType.class)));
     }
-
-    @Autowired
-    private TypeResolver typeResolver;
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
