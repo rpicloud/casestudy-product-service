@@ -20,7 +20,7 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/products")
-public class ProductRestController {
+public class ProductRestController extends BaseRestController {
 
     @Autowired
     private ProductRepository repository;

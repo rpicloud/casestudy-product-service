@@ -1,6 +1,7 @@
 package com.rpicloud;
 
 import com.fasterxml.classmate.TypeResolver;
+import com.rpicloud.models.Product;
 import com.rpicloud.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,19 +43,19 @@ public class ProductServiceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        repository.deleteAll();
-//        repository.save(new Product("Microservices by Sam Newton", "Book", 23.45, 56.34));
-//        repository.save(new Product("Cloud Native by Josh Long", "Book", 23.78, 28.89));
-//
-//        System.out.println("Products found with findAll():");
-//        System.out.println("-------------------------------");
-//        repository.findAll().forEach(System.out::println);
-//        System.out.println();
-//
-//        // fetch an individual customer
-//        System.out.println("Product found with findByProductName('Microservices by Sam Newton'):");
-//        System.out.println("--------------------------------");
-//        System.out.println(repository.findByProductName("Microservices by Sam Newton"));
+        repository.deleteAll();
+        repository.save(new Product("Microservices by Sam Newton", "Book", 23.45, 56.34));
+        repository.save(new Product("Cloud Native by Josh Long", "Book", 23.78, 28.89));
+
+        System.out.println("Products found with findAll():");
+        System.out.println("-------------------------------");
+        repository.findAll().forEach(System.out::println);
+        System.out.println();
+
+        // fetch an individual customer
+        System.out.println("Product found with findByProductName('Microservices by Sam Newton'):");
+        System.out.println("--------------------------------");
+        System.out.println(repository.findByProductName("Microservices by Sam Newton"));
     }
 
     @Autowired
